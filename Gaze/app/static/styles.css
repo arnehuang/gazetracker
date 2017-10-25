@@ -1,0 +1,142 @@
+button {
+	font-size:1.2em;
+	border-style:none;
+	margin:auto;
+	background-color: #3ab4e2;
+	text-align: center;
+	padding: 5px 30px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	text-decoration: none !important;
+	color: #ffffff;
+	display: inline-block;
+	line-height: 1.25em;
+	-webkit-text-size-adjust:none;
+	transition: .3s transform,.3s border,.3s background,.3s color,.3s box-shadow,.3s opacity;
+	outline: none;
+	cursor: pointer;
+}
+
+
+
+button:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 10px 10px -10px rgba(0,0,0,.6),0 2px 3px rgba(0,0,0,.3);
+}
+
+button:active {
+	transform: translateY(0);
+	box-shadow: none;
+	border:none;
+}
+
+.user-profile {
+    min-height: 140px;
+}
+
+.user-avatar {
+    float: left;
+    margin-right: 16px;
+    margin-bottom: 16px;
+}
+
+
+ul.talk-list {
+    list-style-type: none;
+    padding: 0px;
+}
+
+li.talk {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+}
+
+li.talk:hover {
+    background-color: #f8f8f8;
+}
+
+div.talk-header h2 {
+    font-size: 200%;
+    margin: 5px 0px 15px 0px;
+}
+
+div.talk-header h3 {
+    font-size: 115%;
+    margin: 0px 0px 10px 0px;
+}
+
+div.talk-header p {
+    font-size: 90%;
+    font-style: italic;
+}
+
+div.talk-video {
+    width: 450px;
+    max-width: 450px;
+    display: inline-block;
+    margin: 5px;
+    vertical-align: middle;
+}
+
+div.talk-slides {
+    width: 450px;
+    max-width: 450px;
+    display: inline-block;
+    margin: 5px;
+    vertical-align: middle;
+}
+
+.flask-pagedown-preview {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.flask-pagedown-preview h1, .comment-body h1 {
+    font-size: 160%;
+}
+
+.flask-pagedown-preview h2, .comment-body h2 {
+    font-size: 140%;
+}
+
+.flask-pagedown-preview h3, .comment-body h3 {
+    font-size: 120%;
+}
+
+ul.comment-list {
+    list-style-type: none;
+    padding: 0px;
+}
+
+li.comment {
+    padding: 10px;
+}
+
+ul.comment-list li.comment:nth-child(odd)
+{
+    background-color: #eee;
+}
+
+ul.comment-list li.comment:nth-child(even)
+{
+    background-color: #fff;
+}
+
+.badge-red {
+    background-color:#d44;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: inherit;
+}
+
+form {
+    display: inline-block;
+}
