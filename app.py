@@ -1,7 +1,10 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import ssl
+import sys
 
-httpd = HTTPServer(('localhost', 4443), SimpleHTTPRequestHandler)
+PORT = int((sys.argv[1] or 4333))
+
+httpd = HTTPServer(('localhost', PORT), SimpleHTTPRequestHandler)
 
 httpd.socket = ssl.wrap_socket(httpd.socket,
                                certfile='server.pem', server_side=True)
