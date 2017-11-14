@@ -1,9 +1,9 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 import ssl
 
 httpd = HTTPServer(('localhost', 4443), SimpleHTTPRequestHandler)
 
 httpd.socket = ssl.wrap_socket(httpd.socket,
                                certfile='server.pem', server_side=True)
-
+print('running')
 httpd.serve_forever()
