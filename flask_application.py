@@ -14,7 +14,7 @@ def vole():
 
 
 @app.route("/collision")
-def vole():
+def collision():
     return render_template("collision.html")
 
 
