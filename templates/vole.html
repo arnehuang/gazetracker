@@ -65,9 +65,6 @@
          //console.log(data);
          if(!data)
           return;
-        root.px = data.x;
-        root.py = data.y;
-        force.resume();
 
         svg.select("#eyeline1").remove();
         var cl = webgazer.getTracker().clm;
@@ -113,17 +110,8 @@
     var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
+    .attr("z-index", -99)
     .attr("id","balls");
-
-
-    svg.on("mousemove", function() {
-      var p1 = d3.mouse(this);
-      root.px = p1[0];
-      root.py = p1[1];
-      force.resume();
-    });
-
-
 
     function setup() {
 
