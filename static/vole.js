@@ -65,31 +65,31 @@ function Main()
 
     /* Load GFX */
 
-    titleBgImg.src = 'images/titleBg.png';
+    titleBgImg.src = '../static/images/titleBg.png';
     titleBgImg.name = 'titleBg';
     titleBgImg.onload = loadGfx;
 
-    gameBgImg.src = 'images/gameBg.png';
+    gameBgImg.src = '../static/images/gameBg.png';
     gameBgImg.name = 'gameBg';
     gameBgImg.onload = loadGfx;
 
-    playBtnImg.src = 'images/playBtn.png';
+    playBtnImg.src = '../static/images/playBtn.png';
     playBtnImg.name = 'playBtn';
     playBtnImg.onload = loadGfx;
 
-    creditsBtnImg.src = 'images/creditsBtn.png';
+    creditsBtnImg.src = '../static/images/creditsBtn.png';
     creditsBtnImg.name = 'creditsBtn';
     creditsBtnImg.onload = loadGfx;
 
-    creditsViewImg.src = 'images/creditsView.png';
+    creditsViewImg.src = '../static/images/creditsView.png';
     creditsViewImg.name = 'credits';
     creditsViewImg.onload = loadGfx;
 
-    alertBgImg.src = 'images/alertBg.png';
+    alertBgImg.src = '../static/images/alertBg.png';
     alertBgImg.name = 'alertBg';
     alertBgImg.onload = loadGfx;
 
-    voleImg.src = 'images/vole.png';
+    voleImg.src = '../static/images/vole.png';
     voleImg.name = 'vole';
     voleImg.onload = loadGfx;
 
