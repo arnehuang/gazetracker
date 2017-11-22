@@ -13,6 +13,11 @@ def vole():
     return render_template("vole.html")
 
 
+@app.route("/collision")
+def vole():
+    return render_template("collision.html")
+
+
 if __name__ == "__main__":
 
     app.secret_key = "got bod?"
