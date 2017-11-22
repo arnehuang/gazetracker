@@ -1,4 +1,7 @@
 import os
+
+# not used for now
+
 if os.path.exists('.env'):
     print('Importing environment from .env...')
     for line in open('.env'):
