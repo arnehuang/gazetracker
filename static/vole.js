@@ -60,7 +60,7 @@ var currentvoles = 0; //voles already shown
 var volesHit = 0;
 var totalvoles = 10; //total of voles to display
 
-function Main()
+function Main_vole()
 {
     /* Link Canvas */
 
