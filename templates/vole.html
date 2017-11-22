@@ -34,10 +34,12 @@
             canvas.style.left = String((window.innerWidth-canvas.width)/2)+"px";
             canvas.style.position = "absolute";
 
-        }
+    };
+
     function reload(){
-    location.reload();
-    }
+      location.reload();
+    };
+
   window.onload = function() {
 
     var localstorageLabel = 'webgazerGlobalData';
@@ -132,7 +134,7 @@
       document.body.appendChild(voleCanvas);
 
 
-     
+
 
     function checkIfReady() {
       if (webgazer.isReady()) {
@@ -151,7 +153,8 @@
   window.onbeforeunload = function() {
     //webgazer.end(); //Uncomment if you want to save the data even if you reload the page.
     window.localStorage.clear(); //Comment out if you want to save data across different sessions
-  }
+  };
+
   </script>
 
 </body>
