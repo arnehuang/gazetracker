@@ -12,10 +12,32 @@
     <script type="text/javascript" src="../static/Tween.js"></script>
     <script type="text/javascript" src="../static/vole.js"></script>
 
+</head>
 
 
-    <script>
+<body onresize="reload();">
+<script>
+    function resize_canvas(){
+            canvas = document.getElementById("WhackaVole");
 
+            if (canvas.height < window.innerHeight)
+            {
+                canvas.height = window.innerHeight-100;
+            }
+
+            if (canvas.width  < window.innerWidth)
+            {
+                canvas.width  = canvas.height*1.7;
+            }
+
+            canvas.style.top = "50px";
+            canvas.style.left = String((window.innerWidth-canvas.width)/2)+"px";
+            canvas.style.position = "absolute";
+
+        }
+    function reload(){
+    location.reload();
+    }
   window.onload = function() {
 
     var localstorageLabel = 'webgazerGlobalData';
@@ -140,35 +162,7 @@
     //webgazer.end(); //Uncomment if you want to save the data even if you reload the page.
     window.localStorage.clear(); //Comment out if you want to save data across different sessions
   }
-
-
-        function resize_canvas(){
-            canvas = document.getElementById("WhackaVole");
-
-            if (canvas.height < window.innerHeight)
-            {
-                canvas.height = window.innerHeight-100;
-            }
-
-            if (canvas.width  < window.innerWidth)
-            {
-                canvas.width  = canvas.height*1.7;
-            }
-
-            canvas.style.top = "50px";
-            canvas.style.left = String((window.innerWidth-canvas.width)/2)+"px";
-            canvas.style.position = "absolute";
-
-        }
-        function reload(){
-        location.reload();
-        }
-
   </script>
 
-</head>
-
-
-<body onresize="reload();">
 </body>
 </html>
