@@ -1,17 +1,43 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Whack A Worm</title>
+<head>
+    <title>Whack A Vole</title>
 
-        <style>*{-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}</style>
+    <style>*{-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}</style>
 
-        <script type="text/javascript" src="../static/easel.js"></script>
-        <script type="text/javascript" src="../static/Tween.js"></script>
-        <!--<script type="text/javascript" src="{{url_for('static', filename='vole.js')}}"></script>-->
-        <script type="text/javascript" src="../static/vole.js"></script>
+    <script type="text/javascript" src="../static/easel.js"></script>
+    <script type="text/javascript" src="../static/Tween.js"></script>
+    <!--<script type="text/javascript" src="{{url_for('static', filename='vole.js')}}"></script>-->
+    <script type="text/javascript" src="../static/vole.js"></script>
+    <script type="text/javascript">
 
-    </head>
-    <body onload="Main();">
-        <canvas id="WhackaVole" width="480" height="320"></canvas>
-    </body>
+        function resize_canvas(){
+            canvas = document.getElementById("WhackaVole");
+
+            if (canvas.height < window.innerHeight)
+            {
+                canvas.height = window.innerHeight-100;
+            }
+
+            if (canvas.width  < window.innerWidth)
+            {
+                canvas.width  = canvas.height*1.7;
+            }
+
+            canvas.style.top = "50px";
+            canvas.style.left = String((window.innerWidth-canvas.width)/2)+"px";
+            canvas.style.position = "absolute";
+
+        }
+        function reload(){
+        location.reload();
+        }
+
+    </script>
+</head>
+
+
+<body onload="resize_canvas();Main();" onresize="reload();">
+<canvas id="WhackaVole"></canvas>
+</body>
 </html>

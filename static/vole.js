@@ -43,6 +43,11 @@ var voleImg = new Image();
 var vole;
 var lastvole;
 
+var voleHitBoxImg = new Image();
+var voleHitBox;
+var lastvoleHitBox;
+
+
 var volesX = [80, 198, 338, 70, 225, 376, 142, 356];
 var volesY = [11, 51, 34, 110, 136, 96, 211, 186];
 
@@ -60,14 +65,20 @@ function Main()
     /* Link Canvas */
 
     canvas = document.getElementById('WhackaVole');
+    centerX = Math.floor(canvas.width / 2)
+    centerY = Math.floor(canvas.height/ 2)
     stage = new Stage(canvas);
     stage.mouseEventsEnabled = true;
+//    stage.enableMouseOver();
 
     /* Load GFX */
 
-    titleBgImg.src = '../static/images/titleBg.png';
+    titleBgImg.src = '../static/images/titleBg.svg';
     titleBgImg.name = 'titleBg';
     titleBgImg.onload = loadGfx;
+    titleBgImg.width = 400;
+    titleBgImg.height = 266.67;
+
 
     gameBgImg.src = '../static/images/gameBg.png';
     gameBgImg.name = 'gameBg';
@@ -92,6 +103,13 @@ function Main()
     voleImg.src = '../static/images/vole.png';
     voleImg.name = 'vole';
     voleImg.onload = loadGfx;
+//    voleImg.width = 288;
+//    voleImg.height = 283;
+
+    voleHitBoxImg.src = '../static/images/voleHitBox.png';
+    voleHitBoxImg.name = 'voleHitBox';
+    voleHitBoxImg.onload = loadGfx;
+
 
     /* Ticker */
 
@@ -106,12 +124,13 @@ function loadGfx(e)
 	if(e.target.name = 'playBtn'){playBtn = new Bitmap(playBtnImg);}
 	if(e.target.name = 'creditsBtn'){creditsBtn = new Bitmap(creditsBtnImg);}
 	if(e.target.name = 'alertBg'){alertBg = new Bitmap(alertBgImg);}
-	/* --CreditsView
-	   --voles */
+	if(e.target.name = 'vole'){vole = new Bitmap(voleImg);}
+	if(e.target.name = 'creditsView'){creditsView = new Bitmap(creditsViewImg);}
+	if(e.target.name = 'voleHitBox'){voleHitBox = new Bitmap(voleHitBoxImg);}
 
 	gfxLoaded++;
 
-	if(gfxLoaded == 7)
+	if(gfxLoaded == 8)
 	{
 		addTitleView();
 	}
@@ -119,17 +138,24 @@ function loadGfx(e)
 
 function addTitleView()
 {
-	/* Add GameView BG */
 
+
+
+    gameBg.scaleY = (canvas.height / gameBgImg.height)
+    gameBg.scaleX = (canvas.width / gameBgImg.width)
+	/* Add GameView BG */
 	stage.addChild(gameBg);
 
 	/* Title Screen */
 
-	playBtn.x = centerX - 25;
-	playBtn.y = centerY + 35;
+	playBtn.x = centerX - (playBtnImg.width/2);
+	playBtn.y = centerY + 0.2*(canvas.height);
 
-	creditsBtn.x = centerX - 40;
-	creditsBtn.y = centerY + 80;
+	creditsBtn.x = centerX - (creditsBtnImg.width/2);
+	creditsBtn.y = centerY + 0.3*(canvas.height);
+
+    titleBg.scaleY = (canvas.height / titleBgImg.height)
+    titleBg.scaleX = (canvas.width / titleBgImg.width)
 
 	titleView.addChild(titleBg, playBtn, creditsBtn);
 
@@ -159,6 +185,9 @@ function showCredits()
 	playBtn.visible = false;
 	creditsBtn.visible = false;
 	creditsView = new Bitmap(creditsViewImg);
+
+	creditsView.scaleY = (canvas.height / titleBgImg.height)
+
 	stage.addChild(creditsView);
 	creditsView.x = -203;
 
@@ -175,10 +204,10 @@ function hideCredits()
 function showGameView()
 {
 	Tween.get(titleView).to({x: -480}, 200).call(function(){startButtonListeners('rmv'); stage.removeChild(titleView); titleView = null; showvole();});
-	score = new Text('0' + '/' + totalvoles, 'bold 15px Arial', '#EEE');
+	score = new Text('0' + '/' + totalvoles, 'bold 20px Arial', '#EEE');
 	score.maxWidth = 1000;	//fix for Chrome 17
-	score.x = 58;
-	score.y = 21;
+	score.x = 55*(canvas.width / gameBgImg.width) + 5;
+	score.y = 19*(canvas.height / gameBgImg.height) + 5;
 	stage.addChild(score);
 }
 
@@ -193,25 +222,44 @@ function showvole()
 		if(lastvole != null)
 		{
 			lastvole.onPress = null;
+			lastvoleHitBox.onPress = null;
 			stage.removeChild(lastvole);
+			stage.removeChild(lastvoleHitBox);
 			stage.update();
 			lastvole = null;
+			lastvoleHitBox = null;
 		}
 
 		var randomPos = Math.floor(Math.random() * 8);
 		var vole = new Bitmap(voleImg);
+		var voleHitBox = new Bitmap(voleHitBoxImg);
 
-		vole.x = volesX[randomPos];
-		vole.y = volesY[randomPos];
-		stage.addChild(vole);
-		vole.onPress = voleHit;
+//        vole.scaleX = ((58*canvas.width / gameBgImg.width) / voleImg.width)
+//        vole.scaleY = ((58*canvas.width / gameBgImg.width) / voleImg.width)
+
+        vole.x = volesX[randomPos] * (canvas.width / gameBgImg.width);
+		vole.y = volesY[randomPos] * (canvas.height / gameBgImg.height)+100;
+
+		voleHitBox.x = volesX[randomPos]* (canvas.width / gameBgImg.width);
+		voleHitBox.y = volesY[randomPos]* (canvas.height / gameBgImg.height);
+		stage.addChild(vole, voleHitBox);
+		voleHitBox.onPress = voleHit;
 
 		lastvole = vole;
+		lastvoleHitBox = voleHitBox;
 		lastvole.scaleY = 0.3;
 		lastvole.y += 42;
+		lastvoleHitBox.y = -300;
+		lastvoleHitBox.scaleY = (canvas.height / voleHitBoxImg.height)+10;
+		lastvoleHitBox.scaleX = 3;
+		lastvoleHitBox.x -= 100;
+		console.log(lastvoleHitBox.y)
+		console.log(canvas.height)
+
+//		lastvoleHitBox.cursor = "pointer";
 		stage.update();
 
-		Tween.get(lastvole).to({scaleY: 1, y: volesY[randomPos]}, 200).wait(1000).call(function(){currentvoles++; showvole()});
+		Tween.get(lastvole).to({scaleY: 1, y: volesY[randomPos]* (canvas.height / gameBgImg.height)+100}, 200).wait(1000).call(function(){currentvoles++; showvole()});
 	}
 }
 
@@ -219,10 +267,11 @@ function voleHit()
 {
 	volesHit++;
 	score.text = volesHit + '/' + totalvoles;
-
 	lastvole.onPress = null;
-	stage.removeChild(lastvole);
+	lastvoleHitBox.onPress = null;
+	stage.removeChild(lastvole, lastvoleHitBox);
 	lastvole = null;
+	lastvoleHitBox = null;
 	stage.update();
 }
 
@@ -237,8 +286,8 @@ function showAlert()
 		Ticker.removeAllListeners();
 		var score = new Text(volesHit + '/' + totalvoles, 'bold 20px Arial', '#EEE');
 		score.maxWidth = 1000;	//fix for Chrome 17
-		score.x = 220;
-		score.y = 205;
+		score.x = centerX - 20;
+		score.y = centerY + 50;
 		stage.addChild(score);
 		stage.update();
 	});
