@@ -51,6 +51,23 @@
          //console.log(data);
          if(!data)
           return;
+
+      //overlay_ctx.clearRect(0, 0, real_canvas.width, real_canvas.height);
+
+      //  var cl = webgazer.getTracker().clm;
+
+        //overlay_ctx.beginPath();
+        //overlay_ctx.moveTo(data.x,data.y);
+        //overlay_ctx.lineTo(cl.getCurrentPosition()[27][0],cl.getCurrentPosition()[27][1]);
+        //overlay_ctx.stroke();
+
+        //var cl = webgazer.getTracker().clm;
+
+        //overlay_ctx.beginPath();
+        //overlay_ctx.moveTo(data.x,data.y);
+        //overlay_ctx.lineTo(cl.getCurrentPosition()[32][0],cl.getCurrentPosition()[32][1]);
+        //overlay_ctx.stroke();
+
       })
     .begin()
     .showPredictionPoints(true); /* shows a square every 100 milliseconds where current prediction is */
@@ -58,11 +75,28 @@
     var width = window.innerWidth,
     height = window.innerHeight;
 
-    var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .attr("z-index", -3)
-    .attr("id","balls");
+    // var overlay_canvas = d3.select("body").append("canvas")
+    // .attr("width", width)
+    // .attr("height", height)
+    // .attr("z-index", 3)
+    // .attr("id","overlay_canvas");
+
+    // var real_canvas = document.getElementById('overlay_canvas');
+
+    var real_canvas = document.createElement('canvas');
+      real_canvas.id = 'overlay_canvas';
+      real_canvas.style.position = 'absolute';
+      real_canvas.width = width;
+      real_canvas.height = height;
+      real_canvas.style.zIndex="1";
+
+    document.body.appendChild(real_canvas);
+
+    var overlay_ctx = real_canvas.getContext("2d");
+
+    overlay_ctx.lineWidth=2;
+    overlay_ctx.strokeStyle="#FF0000";
+
 
     function setup() {
 
@@ -79,7 +113,7 @@
       video.width = width;
       video.height = height;
       video.style.margin = '0px';
-      video.style.zIndex="-1";
+      video.style.zIndex="2";
 
       webgazer.params.imgWidth = width;
       webgazer.params.imgHeight = height;
@@ -92,13 +126,14 @@
       overlay.style.top = topDist;
       overlay.style.left = leftDist;
       overlay.style.margin = '0px';
+      overlay.style.zIndex="3";
 
       document.body.appendChild(overlay);
 
 
       var WhackaVole = document.createElement('canvas');
       WhackaVole.id = 'WhackaVole';
-      WhackaVole.style.zIndex = "-2";
+      WhackaVole.style.zIndex = "1";
 
 
       document.body.appendChild(WhackaVole);
