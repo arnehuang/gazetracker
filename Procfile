@@ -1,2 +1,2 @@
 ps: scale worker=1
-web: python app.py $PORT
+web: python flask_application.py -prod

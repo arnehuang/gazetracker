@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+    <title>Whack A Vole</title>
+
+    <style>*{-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}</style>
+<script type="text/javascript" src="../static/easel.js"></script>
+    <script type="text/javascript" src="../static/Tween.js"></script>
+    <script type="text/javascript" src="../static/vole.js"></script>
+
+</head>
+
+<!--onresize="reload();"-->
+<body >
+<script type="text/javascript" src="../static/d3.v3.min.js"></script>
+<script type="text/javascript" src="../static/webgazer.js"></script>
+<script type="text/javascript">
+
+    function resize_canvas(){
+        canvas = document.getElementById("WhackaVole");
+
+        if (canvas.height < window.innerHeight)
+        {
+            canvas.height = window.innerHeight-100;
+        }
+
+        if (canvas.width  < window.innerWidth)
+        {
+            canvas.width  = canvas.height*1.7;
+        }
+
+        canvas.style.top = "50px";
+        canvas.style.left = String((window.innerWidth-canvas.width)/2)+"px";
+        canvas.style.position = "absolute";
+
+    };
+
+    function reload(){
+        location.reload();
+    };
+
+  window.onload = function() {
+
+    var localstorageLabel = 'webgazerGlobalData';
+    window.localStorage.setItem(localstorageLabel, null);
+
+    webgazer.setRegression('ridge') /* currently must set regression and tracker */
+    .setTracker('clmtrackr')
+    .setGazeListener(function(data, clock) {
+         //console.log(data);
+         if(!data)
+          return;
+
+      //overlay_ctx.clearRect(0, 0, real_canvas.width, real_canvas.height);
+
+      //  var cl = webgazer.getTracker().clm;
+
+        //overlay_ctx.beginPath();
+        //overlay_ctx.moveTo(data.x,data.y);
+        //overlay_ctx.lineTo(cl.getCurrentPosition()[27][0],cl.getCurrentPosition()[27][1]);
+        //overlay_ctx.stroke();
+
+        //var cl = webgazer.getTracker().clm;
+
+        //overlay_ctx.beginPath();
+        //overlay_ctx.moveTo(data.x,data.y);
+        //overlay_ctx.lineTo(cl.getCurrentPosition()[32][0],cl.getCurrentPosition()[32][1]);
+        //overlay_ctx.stroke();
+
+      })
+    .begin()
+    .showPredictionPoints(true); /* shows a square every 100 milliseconds where current prediction is */
+
+    var width = window.innerWidth,
+    height = window.innerHeight;
+
+    // var overlay_canvas = d3.select("body").append("canvas")
+    // .attr("width", width)
+    // .attr("height", height)
+    // .attr("z-index", 3)
+    // .attr("id","overlay_canvas");
+
+    // var real_canvas = document.getElementById('overlay_canvas');
+
+    var real_canvas = document.createElement('canvas');
+      real_canvas.id = 'overlay_canvas';
+      real_canvas.style.position = 'absolute';
+      real_canvas.width = width;
+      real_canvas.height = height;
+      real_canvas.style.zIndex="1";
+
+    document.body.appendChild(real_canvas);
+
+    var overlay_ctx = real_canvas.getContext("2d");
+
+    overlay_ctx.lineWidth=2;
+    overlay_ctx.strokeStyle="#FF0000";
+
+
+    function setup() {
+
+      var width = 320;
+      var height = 240;
+      var topDist = '0px';
+      var leftDist = '0px';
+
+      var video = document.getElementById('webgazerVideoFeed');
+      video.style.display = 'block';
+      video.style.position = 'absolute';
+      video.style.top = topDist;
+      video.style.left = leftDist;
+      video.width = width;
+      video.height = height;
+      video.style.margin = '0px';
+      video.style.zIndex="2";
+
+      webgazer.params.imgWidth = width;
+      webgazer.params.imgHeight = height;
+
+      var overlay = document.createElement('canvas');
+      overlay.id = 'overlay';
+      overlay.style.position = 'absolute';
+      overlay.width = width;
+      overlay.height = height;
+      overlay.style.top = topDist;
+      overlay.style.left = leftDist;
+      overlay.style.margin = '0px';
+      overlay.style.zIndex="3";
+
+      document.body.appendChild(overlay);
+
+
+      var WhackaVole = document.createElement('canvas');
+      WhackaVole.id = 'WhackaVole';
+      WhackaVole.style.zIndex = "1";
+
+
+      document.body.appendChild(WhackaVole);
+
+      var cl = webgazer.getTracker().clm;
+
+      function drawLoop() {
+        requestAnimFrame(drawLoop);
+        overlay.getContext('2d').clearRect(0,0,width,height);
+        if (cl.getCurrentPosition()) {
+          cl.draw(overlay);
+        }
+      }
+      drawLoop();
+    };
+
+    function checkIfReady() {
+      if (webgazer.isReady()) {
+        setup();
+        resize_canvas();
+        Main_vole();
+
+      } else {
+        setTimeout(checkIfReady, 100);
+      }
+    }
+
+    setTimeout(checkIfReady,100);
+
+  };
+
+  window.onbeforeunload = function() {
+    //webgazer.end(); //Uncomment if you want to save the data even if you reload the page.
+    window.localStorage.clear(); //Comment out if you want to save data across different sessions
+  }
+
+  </script>
+
+
+</body>
+</html>
