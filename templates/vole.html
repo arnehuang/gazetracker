@@ -1,14 +1,11 @@
 <!DOCTYPE html>
+<meta charset="utf-8">
 <html>
 <head>
     <title>Whack A Vole</title>
 
     <style>*{-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}</style>
-
-    <script type="text/javascript" src="{{url_for('static', filename='d3.v3.min.js')}}"></script>
-    <script type="text/javascript" src="{{url_for('static', filename='webgazer.js')}}"></script>
-
-    <script type="text/javascript" src="../static/easel.js"></script>
+<script type="text/javascript" src="../static/easel.js"></script>
     <script type="text/javascript" src="../static/Tween.js"></script>
     <script type="text/javascript" src="../static/vole.js"></script>
 
@@ -16,28 +13,31 @@
 
 <!--onresize="reload();"-->
 <body >
-<script>
+<script type="text/javascript" src="../static/d3.v3.min.js"></script>
+<script type="text/javascript" src="../static/webgazer.js"></script>
+<script type="text/javascript">
+
     function resize_canvas(){
-            canvas = document.getElementById("WhackaVole");
+        canvas = document.getElementById("WhackaVole");
 
-            if (canvas.height < window.innerHeight)
-            {
-                canvas.height = window.innerHeight-100;
-            }
+        if (canvas.height < window.innerHeight)
+        {
+            canvas.height = window.innerHeight-100;
+        }
 
-            if (canvas.width  < window.innerWidth)
-            {
-                canvas.width  = canvas.height*1.7;
-            }
+        if (canvas.width  < window.innerWidth)
+        {
+            canvas.width  = canvas.height*1.7;
+        }
 
-            canvas.style.top = "50px";
-            canvas.style.left = String((window.innerWidth-canvas.width)/2)+"px";
-            canvas.style.position = "absolute";
+        canvas.style.top = "50px";
+        canvas.style.left = String((window.innerWidth-canvas.width)/2)+"px";
+        canvas.style.position = "absolute";
 
     };
 
     function reload(){
-      location.reload();
+        location.reload();
     };
 
   window.onload = function() {
@@ -51,41 +51,6 @@
          //console.log(data);
          if(!data)
           return;
-
-        svg.select("#eyeline1").remove();
-        var cl = webgazer.getTracker().clm;
-
-        var line = svg.append("line")
-                  .attr("x1",data.x)
-                  .attr("y1",data.y)
-                  .attr("x2",cl.getCurrentPosition()[27][0])
-                  .attr("y2",cl.getCurrentPosition()[27][1])
-                  .attr("stroke-width",2)
-                  .attr("stroke","red")
-                  .attr("id","eyeline1");
-
-        svg.select("#eyeline2").remove();
-        var cl = webgazer.getTracker().clm;
-
-        var line = svg.append("line")
-                  .attr("x1",data.x)
-                  .attr("y1",data.y)
-                  .attr("x2",cl.getCurrentPosition()[32][0])
-                  .attr("y2",cl.getCurrentPosition()[32][1])
-                  .attr("stroke-width",2)
-                  .attr("stroke","red")
-                  .attr("id","eyeline2");
-
-        svg.select("#predictionSquare").remove();
-        var dot = svg.append("rect")
-                    .attr("x",data.x)
-                    .attr("y",data.y)
-                    .attr("width",5)
-                    .attr("height",5)
-                    .attr("fill","red")
-                    .attr("id","predictionSquare");
-
-
       })
     .begin()
     .showPredictionPoints(true); /* shows a square every 100 milliseconds where current prediction is */
@@ -96,6 +61,7 @@
     var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
+    .attr("z-index", -3)
     .attr("id","balls");
 
     function setup() {
@@ -129,18 +95,32 @@
 
       document.body.appendChild(overlay);
 
-      var voleCanvas = document.createElement('WhackaVole');
 
-      document.body.appendChild(voleCanvas);
+      var WhackaVole = document.createElement('canvas');
+      WhackaVole.id = 'WhackaVole';
+      WhackaVole.style.zIndex = "-2";
 
 
+      document.body.appendChild(WhackaVole);
 
+      var cl = webgazer.getTracker().clm;
+
+      function drawLoop() {
+        requestAnimFrame(drawLoop);
+        overlay.getContext('2d').clearRect(0,0,width,height);
+        if (cl.getCurrentPosition()) {
+          cl.draw(overlay);
+        }
+      }
+      drawLoop();
+    };
 
     function checkIfReady() {
       if (webgazer.isReady()) {
         setup();
         resize_canvas();
         Main_vole();
+
       } else {
         setTimeout(checkIfReady, 100);
       }
@@ -153,9 +133,10 @@
   window.onbeforeunload = function() {
     //webgazer.end(); //Uncomment if you want to save the data even if you reload the page.
     window.localStorage.clear(); //Comment out if you want to save data across different sessions
-  };
+  }
 
   </script>
+
 
 </body>
 </html>

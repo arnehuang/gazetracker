@@ -243,7 +243,8 @@ function showvole()
 		voleHitBox.x = volesX[randomPos]* (canvas.width / gameBgImg.width);
 		voleHitBox.y = volesY[randomPos]* (canvas.height / gameBgImg.height);
 		stage.addChild(vole, voleHitBox);
-		voleHitBox.onPress = voleHit;
+
+//		voleHitBox.onPress = voleHit;
 
 		lastvole = vole;
 		lastvoleHitBox = voleHitBox;
@@ -253,14 +254,43 @@ function showvole()
 		lastvoleHitBox.scaleY = (canvas.height / voleHitBoxImg.height)+10;
 		lastvoleHitBox.scaleX = 3;
 		lastvoleHitBox.x -= 100;
-		console.log(lastvoleHitBox.y)
-		console.log(canvas.height)
+//		console.log(lastvoleHitBox.y)
+//		console.log(canvas.height)
 
 //		lastvoleHitBox.cursor = "pointer";
 		stage.update();
-
+        detectHit();
 		Tween.get(lastvole).to({scaleY: 1, y: volesY[randomPos]* (canvas.height / gameBgImg.height)+100}, 200).wait(1000).call(function(){currentvoles++; showvole()});
 	}
+}
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function detectHit()
+{
+    await sleep(200)
+    var x = lastvoleHitBox.x + (window.innerWidth - canvas.width)/2;
+    var y = (window.innerHeight - canvas.height)/2;
+
+    for (i = 0; i < 10; i++) {
+        var pred = webgazer.getCurrentPrediction()
+
+        console.log(x, x+lastvoleHitBox.getBounds().width, y, y+canvas.height)
+        console.log(pred.x, pred.y)
+
+        if (x < pred.x &&
+            pred.x < (x + lastvoleHitBox.getBounds().width) &&
+             y < pred.y &&
+             pred.y < (y + canvas.height)){
+            console.log('hit');
+            voleHit();
+            break;
+         }
+
+        console.log(i);
+        await sleep(100);
+    }
 }
 
 function voleHit()
